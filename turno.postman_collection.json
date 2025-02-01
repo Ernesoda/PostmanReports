@@ -1,0 +1,681 @@
+{
+	"info": {
+		"_postman_id": "a7045bc5-f352-4a35-953c-2d1bac999b39",
+		"name": "QA Ernesto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40775053",
+		"_collection_link": "https://gv5555.postman.co/workspace/GV-Workspace~87d10f78-c491-4a1b-852a-eefbc874e500/collection/40775053-a7045bc5-f352-4a35-953c-2d1bac999b39?action=share&source=collection_link&creator=40775053"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MzRmODhjNmI1Y2MzMWQxM2IwMjQ2NyIsImVtYWlsIjoiY3Jpc3JvZHJpZ3VlekBtYWlsLmNvbSIsImlhdCI6MTczMzM5ODMyNywiZXhwIjoxNzMzNDE5OTI3fQ.dkNsLzlkYh27fEi_vudE2QsLJO1reUFN6mOYzyzCngM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Client-Type",
+						"value": "react-native",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"ernesto.cazaban+a1pp@odaclick.com\",\r\n    \"password\": \"Secret123!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NjU4YjdjODFkZDY0YjJjNDRhMzhlYSIsImVtYWlsIjoiZXJuZXN0by5jYXphYmFuQG9kYWNsaWNrLmNvbSIsImlhdCI6MTczNzkyOTIzMywiZXhwIjoxNzM3OTQzNjMzfQ.Tjdon-_o0GMDmDCGldFV23pZQQzztPuEuqtV7EJkTL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/users",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "id:674da2d4aa9ef46b1a2044de",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "name:javier",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "lastName:Javier",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List patients",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/patients?search=id:67290aed3d92f050c6492a1b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"patients"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "id:67290aed3d92f050c6492a1b"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1169"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"491-9da+sBuIkQjbWYw6ZwiKLWfdMmE\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 20 Nov 2024 18:08:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"results\": [\n        {\n            \"gacituaPatientId\": 785942,\n            \"id\": \"67290aed3d92f050c6492a1b\",\n            \"email\": \"liclilianatamontero@gmail.com\",\n            \"name\": \"LILIANA ROSA\",\n            \"lastName\": \"MONTERO\",\n            \"phoneNumber\": \"3515599066\",\n            \"isActive\": true,\n            \"documentNumber\": \"17028924\",\n            \"birthdate\": \"1964-09-20T04:00:00.000Z\",\n            \"address\": \"San martin 1015\",\n            \"zipCode\": \"5000\",\n            \"gender\": \"FEMALE\",\n            \"maritalStatus\": \"MARRIED\",\n            \"familyRelationship\": \"OWNER\",\n            \"dischargeDate\": \"2020-03-01T00:00:00.000Z\",\n            \"coverageWaitingPeriod\": null,\n            \"memberNumber\": \"217028924000\",\n            \"healthInsurance\": {\n                \"id\": \"67111d251d9c6ca70621a6df\",\n                \"name\": \"Apross\",\n                \"healthInsurancePlans\": []\n            },\n            \"familyGroup\": {\n                \"id\": \"673ce38945a057fb018f49fd\",\n                \"patients\": [\n                    {\n                        \"user\": {\n                            \"id\": \"67290aed3d92f050c6492a1b\",\n                            \"name\": \"LILIANA ROSA\",\n                            \"lastName\": \"MONTERO\"\n                        }\n                    },\n                    {\n                        \"user\": {\n                            \"id\": \"6734f88c6b5cc31d13b02467\",\n                            \"name\": \"MARIA CRISTINA\",\n                            \"lastName\": \"RODRIGUEZ\"\n                        }\n                    },\n                    {\n                        \"user\": {\n                            \"id\": \"673dd141bf5d8c4a540cb4f5\",\n                            \"name\": \"LAURA\",\n                            \"lastName\": \"RAMIREZ\"\n                        }\n                    }\n                ]\n            },\n            \"groupPermissions\": {\n                \"id\": \"67111e90e518fc615bd6767a\",\n                \"name\": \"Patient\"\n            },\n            \"appointments\": [],\n            \"createdAt\": \"2024-11-04T17:57:01.951Z\",\n            \"updatedAt\": \"2024-11-04T17:57:51.540Z\"\n        }\n    ],\n    \"info\": {\n        \"total\": 1,\n        \"lastPage\": 1,\n        \"currentPage\": 1,\n        \"perPage\": 1,\n        \"prevPage\": null,\n        \"nextPage\": null\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List patients",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NjU4YjdjODFkZDY0YjJjNDRhMzhlYSIsImVtYWlsIjoiZXJuZXN0by5jYXphYmFuQG9kYWNsaWNrLmNvbSIsImlhdCI6MTczNzkyOTIzMywiZXhwIjoxNzM3OTQzNjMzfQ.Tjdon-_o0GMDmDCGldFV23pZQQzztPuEuqtV7EJkTL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/patients",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"patients"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "id:674da2d4aa9ef46b1a2044de",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "name:28206198",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "lastName:Cazaban",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "documentNumber:28206198",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List patients",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/patients?search=id:67290aed3d92f050c6492a1b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"patients"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "id:67290aed3d92f050c6492a1b"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1169"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"491-9da+sBuIkQjbWYw6ZwiKLWfdMmE\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 20 Nov 2024 18:08:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"results\": [\n        {\n            \"gacituaPatientId\": 785942,\n            \"id\": \"67290aed3d92f050c6492a1b\",\n            \"email\": \"liclilianatamontero@gmail.com\",\n            \"name\": \"LILIANA ROSA\",\n            \"lastName\": \"MONTERO\",\n            \"phoneNumber\": \"3515599066\",\n            \"isActive\": true,\n            \"documentNumber\": \"17028924\",\n            \"birthdate\": \"1964-09-20T04:00:00.000Z\",\n            \"address\": \"San martin 1015\",\n            \"zipCode\": \"5000\",\n            \"gender\": \"FEMALE\",\n            \"maritalStatus\": \"MARRIED\",\n            \"familyRelationship\": \"OWNER\",\n            \"dischargeDate\": \"2020-03-01T00:00:00.000Z\",\n            \"coverageWaitingPeriod\": null,\n            \"memberNumber\": \"217028924000\",\n            \"healthInsurance\": {\n                \"id\": \"67111d251d9c6ca70621a6df\",\n                \"name\": \"Apross\",\n                \"healthInsurancePlans\": []\n            },\n            \"familyGroup\": {\n                \"id\": \"673ce38945a057fb018f49fd\",\n                \"patients\": [\n                    {\n                        \"user\": {\n                            \"id\": \"67290aed3d92f050c6492a1b\",\n                            \"name\": \"LILIANA ROSA\",\n                            \"lastName\": \"MONTERO\"\n                        }\n                    },\n                    {\n                        \"user\": {\n                            \"id\": \"6734f88c6b5cc31d13b02467\",\n                            \"name\": \"MARIA CRISTINA\",\n                            \"lastName\": \"RODRIGUEZ\"\n                        }\n                    },\n                    {\n                        \"user\": {\n                            \"id\": \"673dd141bf5d8c4a540cb4f5\",\n                            \"name\": \"LAURA\",\n                            \"lastName\": \"RAMIREZ\"\n                        }\n                    }\n                ]\n            },\n            \"groupPermissions\": {\n                \"id\": \"67111e90e518fc615bd6767a\",\n                \"name\": \"Patient\"\n            },\n            \"appointments\": [],\n            \"createdAt\": \"2024-11-04T17:57:01.951Z\",\n            \"updatedAt\": \"2024-11-04T17:57:51.540Z\"\n        }\n    ],\n    \"info\": {\n        \"total\": 1,\n        \"lastPage\": 1,\n        \"currentPage\": 1,\n        \"perPage\": 1,\n        \"prevPage\": null,\n        \"nextPage\": null\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "GET Gacitua appointments modality",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3N2ZmNDQyMGIyOTNjMThiZDEyM2RhMCIsImVtYWlsIjoiZXJuZXN0by5jYXphYmFuK2ExcHBAb2RhY2xpY2suY29tIiwiaWF0IjoxNzM3OTQxMzM2LCJleHAiOjE3Mzc5NTU3MzZ9.0aKMGyni6APW0rhmL10QJvFiyqamNtYbA3FVZH3Zu60",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/gacitua/appointments/modality",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"gacitua",
+						"appointments",
+						"modality"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Gacitua appointments study by modalityId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3N2ZmNDQyMGIyOTNjMThiZDEyM2RhMCIsImVtYWlsIjoiZXJuZXN0by5jYXphYmFuK2ExcHBAb2RhY2xpY2suY29tIiwiaWF0IjoxNzM3OTQxMzM2LCJleHAiOjE3Mzc5NTU3MzZ9.0aKMGyni6APW0rhmL10QJvFiyqamNtYbA3FVZH3Zu60",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/gacitua/appointments/study/64",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"gacitua",
+						"appointments",
+						"study",
+						"64"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET gacitua appointments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3N2ZmNDQyMGIyOTNjMThiZDEyM2RhMCIsImVtYWlsIjoiZXJuZXN0by5jYXphYmFuK2ExcHBAb2RhY2xpY2suY29tIiwiaWF0IjoxNzM3OTQxMzM2LCJleHAiOjE3Mzc5NTU3MzZ9.0aKMGyni6APW0rhmL10QJvFiyqamNtYbA3FVZH3Zu60",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/gacitua/appointments?deviceId=74&from=2025-01-27&to=2025-01-31",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"gacitua",
+						"appointments"
+					],
+					"query": [
+						{
+							"key": "deviceId",
+							"value": "74"
+						},
+						{
+							"key": "from",
+							"value": "2025-01-27"
+						},
+						{
+							"key": "to",
+							"value": "2025-01-31"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create appointment with images",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3N2ZmNDQyMGIyOTNjMThiZDEyM2RhMCIsImVtYWlsIjoiZXJuZXN0by5jYXphYmFuK2ExcHBAb2RhY2xpY2suY29tIiwiaWF0IjoxNzM3OTQxMzM2LCJleHAiOjE3Mzc5NTU3MzZ9.0aKMGyni6APW0rhmL10QJvFiyqamNtYbA3FVZH3Zu60",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTY2ZWZlYTUxOWI0ODM1MmMwMmNhYyIsImVtYWlsIjoicm9taW5hcGVyZXpAbWFpbC5jb20iLCJpYXQiOjE3MzA3NDQ5NTYsImV4cCI6MTczMDc1OTM1Nn0.r2JVRqtCgsAMFt24hA8rgXEEm2LKWJzzdlrDhc0lqVM"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "gacituaId",
+							"value": "15848927",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "2025-01-27T00:00:00",
+							"type": "text"
+						},
+						{
+							"key": "time",
+							"value": "1900-01-01T12:10:00",
+							"type": "text"
+						},
+						{
+							"key": "modality",
+							"value": "CAMARA GAMMA",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "APP",
+							"type": "text"
+						},
+						{
+							"key": "place",
+							"value": "ANEXO",
+							"type": "text"
+						},
+						{
+							"key": "reviewRequest",
+							"value": "true",
+							"type": "text"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "tCJMS1A7M/contraseña.jpg"
+						},
+						{
+							"key": "prescriptionDate",
+							"value": "2025-01-27",
+							"type": "text"
+						},
+						{
+							"key": "studies",
+							"value": "ANGIOGRAFIA RADIOISOTOPICA",
+							"type": "text"
+						},
+						{
+							"key": "modalityId",
+							"value": "64",
+							"type": "text"
+						},
+						{
+							"key": "deviceId",
+							"value": "74",
+							"type": "text"
+						},
+						{
+							"key": "medicalPreparation",
+							"value": "PREPARACIÓN:\\r\\n\\r\\nNo posee preparación previa. \\r\\n\\r\\n",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/appointments",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"appointments"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create appointment with images",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTY2ZWZlYTUxOWI0ODM1MmMwMmNhYyIsImVtYWlsIjoicm9taW5hcGVyZXpAbWFpbC5jb20iLCJpYXQiOjE3MzA3NDQ5NTYsImV4cCI6MTczMDc1OTM1Nn0.r2JVRqtCgsAMFt24hA8rgXEEm2LKWJzzdlrDhc0lqVM"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "gacituaId",
+									"value": "15850376",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2025-01-06T00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "time",
+									"value": "1900-01-01T12:15:00",
+									"type": "text"
+								},
+								{
+									"key": "modality",
+									"value": "ECOGRAFIAS",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "APP",
+									"type": "text"
+								},
+								{
+									"key": "place",
+									"value": "ANEXO",
+									"type": "text"
+								},
+								{
+									"key": "reviewRequest",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": "tCJMS1A7M/contraseña.jpg"
+								},
+								{
+									"key": "prescriptionDate",
+									"value": "2024-11-29",
+									"type": "text"
+								},
+								{
+									"key": "studies",
+									"value": "ECODOPPLER DE MIEMBROS SUPERIORES",
+									"type": "text"
+								},
+								{
+									"key": "modalityId",
+									"value": "62",
+									"type": "text"
+								},
+								{
+									"key": "deviceId",
+									"value": "61",
+									"type": "text"
+								},
+								{
+									"key": "medicalPreparation",
+									"value": "PREPARACIÓN:\\r\\n\\r\\nNo posee preparación previa. \\r\\n\\r\\n",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/appointments",
+							"protocol": "http",
+							"host": [
+								"ec2-3-136-251-72",
+								"us-east-2",
+								"compute",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"api",
+								"appointments"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.24.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Jan 2025 17:49:01 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1324"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"52c-OoE3juYvHmOTRTlDRrODFfuJaFQ\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"results\": {\n        \"id\": \"6778230d56310e65fdd5c3d5\",\n        \"gacituaId\": 15850376,\n        \"date\": \"2025-01-06T00:00:00\",\n        \"time\": \"1900-01-01T12:15:00\",\n        \"modality\": \"ECOGRAFIAS\",\n        \"studies\": \"ECODOPPLER DE MIEMBROS SUPERIORES\",\n        \"place\": \"ANEXO\",\n        \"prescriptionDate\": \"2024-11-29T00:00:00.000Z\",\n        \"medicalPreparation\": \"PREPARACIÓN:\\\\r\\\\n\\\\r\\\\nNo posee preparación previa. \\\\r\\\\n\\\\r\\\\n\",\n        \"reviewRequest\": true,\n        \"comments\": null,\n        \"suggestedDate\": null,\n        \"suggestedTime\": null,\n        \"type\": \"APP\",\n        \"canceled\": false,\n        \"isExtraAppointment\": false,\n        \"confirmed\": false,\n        \"images\": [\n            {\n                \"id\": \"6778230c56310e65fdd5c3d4\",\n                \"typeImg\": \"IMAGE\",\n                \"url\": null,\n                \"expiresAt\": null\n            }\n        ],\n        \"reviewAppointment\": null,\n        \"patient\": {\n            \"user\": {\n                \"id\": \"677822e656310e65fdd5c3d2\",\n                \"email\": \"rgonzalez@mail.com\",\n                \"name\": \"ROSARIO\",\n                \"lastName\": \"GONZALEZ\",\n                \"phoneNumber\": \"351-36925847\"\n            },\n            \"gacituaPatientId\": 1687189,\n            \"documentNumber\": \"29147258\",\n            \"birthdate\": \"1999-12-17T00:00:00.000Z\",\n            \"address\": \"San Martin 1015\",\n            \"zipCode\": \"5000\",\n            \"city\": null,\n            \"gender\": \"FEMALE\",\n            \"maritalStatus\": \"SINGLE\",\n            \"familyRelationship\": \"OWNER\",\n            \"isActive\": true,\n            \"dischargeDate\": \"2020-03-01T00:00:00.000Z\",\n            \"coverageWaitingPeriod\": 0,\n            \"memberNumber\": \"212872468014\",\n            \"healthInsurance\": {\n                \"id\": \"672a5c937127c5e987c3c760\",\n                \"name\": \"APROSS\",\n                \"gacituaHealthInsuranceId\": null,\n                \"healthInsurancePlans\": []\n            }\n        },\n        \"createdAt\": \"2025-01-03T17:49:00.987Z\",\n        \"updatedAt\": \"2025-01-03T17:49:00.987Z\"\n    }\n}"
+				}
+			]
+		}
+	]
+}
