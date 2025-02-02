@@ -1,0 +1,1008 @@
+{
+	"info": {
+		"_postman_id": "a7045bc5-f352-4a35-953c-2d1bac999b39",
+		"name": "QA Ernesto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40775053",
+		"_collection_link": "https://gv5555.postman.co/workspace/GV-Workspace~87d10f78-c491-4a1b-852a-eefbc874e500/collection/40775053-a7045bc5-f352-4a35-953c-2d1bac999b39?action=share&source=collection_link&creator=40775053"
+	},
+	"item": [
+		{
+			"name": "Login App",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Verificación de que la Autenticación fue Exitosa\r",
+							"pm.test(\"La autenticación fue exitosa\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"//Verificación de que se Recibió un accessToken\r",
+							"pm.test(\"Se recibió un accessToken\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.expect(jsonData.results.accessToken).to.be.a(\"string\").and.not.be.empty;\r",
+							"});\r",
+							"//Verificación de que el accessToken tiene Formato JWT\r",
+							"pm.test(\"El accessToken tiene formato JWT\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  const tokenParts = jsonData.results.accessToken.split(\".\");\r",
+							"  pm.expect(tokenParts.length).to.equal(3); // Un JWT tiene 3 partes separadas por puntos\r",
+							"});\r",
+							"//Verificación de que el accessToken Expira en el Futuro\r",
+							"pm.test(\"El accessToken expira en el futuro\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  const expiresAt = new Date(jsonData.results.accessTokenExpiresAt);\r",
+							"  pm.expect(expiresAt).to.be.above(new Date());\r",
+							"});\r",
+							"//Verificación de que se Recibió un refreshToken\r",
+							"pm.test(\"Se recibió un refreshToken\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.expect(jsonData.results.refreshToken).to.be.a(\"string\").and.not.be.empty;\r",
+							"});\r",
+							"//Verificación de que el refreshToken tiene Formato JWT\r",
+							"pm.test(\"El refreshToken tiene formato JWT\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  const tokenParts = jsonData.results.refreshToken.split(\".\");\r",
+							"  pm.expect(tokenParts.length).to.equal(3); // Un JWT tiene 3 partes separadas por puntos\r",
+							"});\r",
+							"//Verificación de la Respuesta Exitosa\r",
+							"pm.test(\"Verificar que la respuesta es exitosa\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});\r",
+							"//Verificación de la Fecha de Expiración del accessToken\r",
+							"pm.test(\"Verificar que la fecha de expiración del token está presente y es válida\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results).to.have.property(\"accessTokenExpiresAt\");\r",
+							"    pm.expect(new Date(jsonData.results.accessTokenExpiresAt)).to.be.a(\"date\");\r",
+							"});\r",
+							"//Verificación de la Protección contra Inyecciones de Código\r",
+							"pm.test(\"Verificar protección contra inyecciones de código\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results.accessToken).to.not.match(/<script>|<\\/script>/i);\r",
+							"    pm.expect(jsonData.results.refreshToken).to.not.match(/<script>|<\\/script>/i);\r",
+							"});\r",
+							"//Verificación del Tiempo de Respuesta\r",
+							"pm.test(\"Verificar que el tiempo de respuesta es menor a 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"//Verificación de los Encabezados de la Respuesta\r",
+							"pm.test(\"Verificar los encabezados de la respuesta\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+							"});\r",
+							"//Verificación de que los Tokens son Únicos\r",
+							"pm.test(\"Verificar que los tokens de acceso y actualización son únicos\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results.accessToken).to.not.eql(jsonData.results.refreshToken);\r",
+							"});\r",
+							"//Verificación de que los Tokens tienen el Mismo ID de Usuario\r",
+							"pm.test(\"Verificar que los tokens de acceso y actualización tienen el mismo ID de usuario\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    const accessTokenPayload = JSON.parse(atob(jsonData.results.accessToken.split('.')[1]));\r",
+							"    const refreshTokenPayload = JSON.parse(atob(jsonData.results.refreshToken.split('.')[1]));\r",
+							"    pm.expect(accessTokenPayload.id).to.eql(refreshTokenPayload.id);\r",
+							"});\r",
+							"//Verificación de la Expiración del refreshToken\r",
+							"pm.test(\"Verificar que el refreshToken expira en el futuro\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    const refreshTokenPayload = JSON.parse(atob(jsonData.results.refreshToken.split('.')[1]));\r",
+							"    const refreshTokenExpiresAt = new Date(refreshTokenPayload.exp * 1000);\r",
+							"    pm.expect(refreshTokenExpiresAt).to.be.above(new Date());\r",
+							"});\r",
+							"//Protección contra XSS (Cross-Site Scripting) en Tokens\r",
+							"pm.test(\"Verificar que los tokens no contienen elementos XSS\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results.accessToken).to.not.match(/<[^>]+>/);\r",
+							"    pm.expect(jsonData.results.refreshToken).to.not.match(/<[^>]+>/);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MzRmODhjNmI1Y2MzMWQxM2IwMjQ2NyIsImVtYWlsIjoiY3Jpc3JvZHJpZ3VlekBtYWlsLmNvbSIsImlhdCI6MTczMzM5ODMyNywiZXhwIjoxNzMzNDE5OTI3fQ.dkNsLzlkYh27fEi_vudE2QsLJO1reUFN6mOYzyzCngM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Client-Type",
+						"value": "react-native",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"ernesto.cazaban+a1pp@odaclick.com\",\r\n    \"password\": \"Secret123!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Verificación de que la Autenticación fue Exitosa\r",
+							"pm.test(\"La autenticación fue exitosa\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"//Verificación de que se Recibió un accessToken\r",
+							"pm.test(\"Se recibió un accessToken\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  pm.expect(jsonData.results.accessToken).to.be.a(\"string\").and.not.be.empty;\r",
+							"});\r",
+							"//Verificación de que el accessToken tiene Formato JWT\r",
+							"pm.test(\"El accessToken tiene formato JWT\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  const tokenParts = jsonData.results.accessToken.split(\".\");\r",
+							"  pm.expect(tokenParts.length).to.equal(3); // Un JWT tiene 3 partes separadas por puntos\r",
+							"});\r",
+							"//Verificación de que el accessToken Expira en el Futuro\r",
+							"pm.test(\"El accessToken expira en el futuro\", function () {\r",
+							"  const jsonData = pm.response.json();\r",
+							"  const expiresAt = new Date(jsonData.results.accessTokenExpiresAt);\r",
+							"  pm.expect(expiresAt).to.be.above(new Date());\r",
+							"});\r",
+							"//Verificación de la Respuesta Exitosa\r",
+							"pm.test(\"Verificar que la respuesta es exitosa\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});\r",
+							"//Verificación de que el accessToken está Presente\r",
+							"pm.test(\"Verificar que el token de acceso está presente\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results).to.have.property(\"accessToken\");\r",
+							"    pm.expect(jsonData.results.accessToken).to.not.be.empty;\r",
+							"});\r",
+							"//Verificación del Formato del accessToken\r",
+							"pm.test(\"Verificar que el token de acceso tiene el formato correcto\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results.accessToken).to.match(/^eyJ/);\r",
+							"});\r",
+							"//Verificación de la Fecha de Expiración del accessToken\r",
+							"pm.test(\"Verificar que la fecha de expiración del token está presente y es válida\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results).to.have.property(\"accessTokenExpiresAt\");\r",
+							"    pm.expect(new Date(jsonData.results.accessTokenExpiresAt)).to.be.a(\"date\");\r",
+							"});\r",
+							"//Verificación de la Protección contra Inyecciones de Código\r",
+							"pm.test(\"Verificar protección contra inyecciones de código\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results.accessToken).to.not.match(/<script>|<\\/script>/i);\r",
+							"});\r",
+							"//Verificación del Tiempo de Respuesta\r",
+							"pm.test(\"Verificar que el tiempo de respuesta es menor a 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"//Verificación de los Encabezados de la Respuesta\r",
+							"pm.test(\"Verificar los encabezados de la respuesta\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MzRmODhjNmI1Y2MzMWQxM2IwMjQ2NyIsImVtYWlsIjoiY3Jpc3JvZHJpZ3VlekBtYWlsLmNvbSIsImlhdCI6MTczMzM5ODMyNywiZXhwIjoxNzMzNDE5OTI3fQ.dkNsLzlkYh27fEi_vudE2QsLJO1reUFN6mOYzyzCngM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Client-Type",
+						"value": "react-native",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"ernesto.cazaban@odaclick.com\",\r\n    \"password\": \"#2N5x&TjWG\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// **Prueba : Verificar respuesta exitosa**\r",
+							"pm.test(\"El código de estado es 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"La respuesta es exitosa\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"// **Prueba : Verificar valores o condiciones específicas**\r",
+							"pm.test(\"Verificar valores o condiciones específicas\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var results = jsonData.results;\r",
+							"    // Ejemplo: Comprobar si algún usuario tiene permisos de 'SuperAdmin'\r",
+							"    var tieneSuperAdmin = results.some(function (result) {\r",
+							"        return result.groupPermissions.name === \"SuperAdmin\";\r",
+							"    });\r",
+							"    pm.expect(tieneSuperAdmin).to.be.true;\r",
+							"    // Agrega más validaciones para valores o condiciones específicas\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"// **Prueba : Verificar datos de paginación (si aplica)**\r",
+							"pm.test(\"Verificar datos de paginación\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var info = jsonData.info;\r",
+							"    pm.expect(info.total).to.be.a('number');\r",
+							"    pm.expect(info.lastPage).to.be.a('number');\r",
+							"    pm.expect(info.currentPage).to.be.a('number');\r",
+							"    pm.expect(info.perPage).to.be.a('number');\r",
+							"    // Agrega más validaciones para datos de paginación según sea necesario\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NjU4YjdjODFkZDY0YjJjNDRhMzhlYSIsImVtYWlsIjoiZXJuZXN0by5jYXphYmFuQG9kYWNsaWNrLmNvbSIsImlhdCI6MTczODQ2MzQ3MSwiZXhwIjoxNzM4NDc3ODcxfQ.nF2uK1t-6DdTS_NB_nsMngYFKLBeCQziPaqOlQx318U",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/users",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "id:674da2d4aa9ef46b1a2044de",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "name:javier",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "lastName:Javier",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List patients",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/patients?search=id:67290aed3d92f050c6492a1b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"patients"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "id:67290aed3d92f050c6492a1b"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1169"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"491-9da+sBuIkQjbWYw6ZwiKLWfdMmE\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 20 Nov 2024 18:08:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"results\": [\n        {\n            \"gacituaPatientId\": 785942,\n            \"id\": \"67290aed3d92f050c6492a1b\",\n            \"email\": \"liclilianatamontero@gmail.com\",\n            \"name\": \"LILIANA ROSA\",\n            \"lastName\": \"MONTERO\",\n            \"phoneNumber\": \"3515599066\",\n            \"isActive\": true,\n            \"documentNumber\": \"17028924\",\n            \"birthdate\": \"1964-09-20T04:00:00.000Z\",\n            \"address\": \"San martin 1015\",\n            \"zipCode\": \"5000\",\n            \"gender\": \"FEMALE\",\n            \"maritalStatus\": \"MARRIED\",\n            \"familyRelationship\": \"OWNER\",\n            \"dischargeDate\": \"2020-03-01T00:00:00.000Z\",\n            \"coverageWaitingPeriod\": null,\n            \"memberNumber\": \"217028924000\",\n            \"healthInsurance\": {\n                \"id\": \"67111d251d9c6ca70621a6df\",\n                \"name\": \"Apross\",\n                \"healthInsurancePlans\": []\n            },\n            \"familyGroup\": {\n                \"id\": \"673ce38945a057fb018f49fd\",\n                \"patients\": [\n                    {\n                        \"user\": {\n                            \"id\": \"67290aed3d92f050c6492a1b\",\n                            \"name\": \"LILIANA ROSA\",\n                            \"lastName\": \"MONTERO\"\n                        }\n                    },\n                    {\n                        \"user\": {\n                            \"id\": \"6734f88c6b5cc31d13b02467\",\n                            \"name\": \"MARIA CRISTINA\",\n                            \"lastName\": \"RODRIGUEZ\"\n                        }\n                    },\n                    {\n                        \"user\": {\n                            \"id\": \"673dd141bf5d8c4a540cb4f5\",\n                            \"name\": \"LAURA\",\n                            \"lastName\": \"RAMIREZ\"\n                        }\n                    }\n                ]\n            },\n            \"groupPermissions\": {\n                \"id\": \"67111e90e518fc615bd6767a\",\n                \"name\": \"Patient\"\n            },\n            \"appointments\": [],\n            \"createdAt\": \"2024-11-04T17:57:01.951Z\",\n            \"updatedAt\": \"2024-11-04T17:57:51.540Z\"\n        }\n    ],\n    \"info\": {\n        \"total\": 1,\n        \"lastPage\": 1,\n        \"currentPage\": 1,\n        \"perPage\": 1,\n        \"prevPage\": null,\n        \"nextPage\": null\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List patients",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Prueba 1: Verifica que el código de estado sea 200 y que la respuesta sea exitosa\r",
+							"\r",
+							"// Verificar que el código de estado HTTP sea 200\r",
+							"pm.test(\"El código de estado es 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Verificar que el campo 'success' en la respuesta sea true\r",
+							"pm.test(\"La respuesta es exitosa\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"// Prueba 2: Valida que los tipos de datos y formatos de los campos sean correctos\r",
+							"\r",
+							"pm.test(\"Validar tipos de datos y formatos\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var results = jsonData.results;\r",
+							"    results.forEach(function (result) {\r",
+							"        // Verificar que 'id' sea una cadena de texto\r",
+							"        pm.expect(result.id).to.be.a('string');\r",
+							"        // Verificar que 'email' sea una cadena de texto\r",
+							"        pm.expect(result.email).to.be.a('string');\r",
+							"        // Verificar que 'name' sea una cadena de texto\r",
+							"        pm.expect(result.name).to.be.a('string');\r",
+							"        // Verificar que 'lastName' sea una cadena de texto\r",
+							"        pm.expect(result.lastName).to.be.a('string');\r",
+							"        // Si 'phoneNumber' no es nulo, verificar que sea una cadena de texto\r",
+							"        if (result.phoneNumber !== null) {\r",
+							"            pm.expect(result.phoneNumber).to.be.a('string');\r",
+							"        }\r",
+							"        // Verificar que 'isActive' sea un booleano\r",
+							"        pm.expect(result.isActive).to.be.a('boolean');\r",
+							"        // Verificar que 'documentNumber' sea una cadena de texto\r",
+							"        pm.expect(result.documentNumber).to.be.a('string');\r",
+							"        // Verificar que 'birthdate' sea una cadena de texto\r",
+							"        pm.expect(result.birthdate).to.be.a('string');\r",
+							"        // Agregar más validaciones para otros campos según sea necesario\r",
+							"    });\r",
+							"});\r",
+							"// Prueba 3: Verifica que los campos obligatorios estén presentes en los datos\r",
+							"\r",
+							"pm.test(\"Verifica que los campos obligatorios estén presentes en los datos\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var results = jsonData.results;\r",
+							"    results.forEach(function (result) {\r",
+							"        // Verificar que 'id' exista y no sea nulo\r",
+							"        pm.expect(result.id).to.exist;\r",
+							"        // Verificar que 'email' exista y no sea nulo\r",
+							"        pm.expect(result.email).to.exist;\r",
+							"        // Verificar que 'name' exista y no sea nulo\r",
+							"        pm.expect(result.name).to.exist;\r",
+							"        // Verificar que 'lastName' exista y no sea nulo\r",
+							"        pm.expect(result.lastName).to.exist;\r",
+							"        // Verificar que 'isActive' exista y no sea nulo\r",
+							"        pm.expect(result.isActive).to.exist;\r",
+							"        // Verificar que 'documentNumber' exista y no sea nulo\r",
+							"        pm.expect(result.documentNumber).to.exist;\r",
+							"        // Agregar más validaciones para otros campos obligatorios\r",
+							"    });\r",
+							"});\r",
+							"// Prueba 4: Verifica condiciones o valores específicos en los datos\r",
+							"\r",
+							"pm.test(\"Verificar valores o condiciones específicas\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var results = jsonData.results;\r",
+							"    // Ejemplo: Comprobar si algún usuario tiene permisos de 'Patient'\r",
+							"    var tienePermisosDePaciente = results.some(function (result) {\r",
+							"        return result.groupPermissions.name === \"Patient\";\r",
+							"    });\r",
+							"    // Verificar que exista al menos un usuario con permisos de 'Patient'\r",
+							"    pm.expect(tienePermisosDePaciente).to.be.true;\r",
+							"\r",
+							"    // Agregar más validaciones para valores o condiciones específicas\r",
+							"});\r",
+							"// Prueba 5: Valida que las relaciones entre los datos sean correctas\r",
+							"\r",
+							"pm.test(\"Validar relaciones de datos\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var results = jsonData.results;\r",
+							"    results.forEach(function (result) {\r",
+							"        if (result.familyGroup !== null) {\r",
+							"            // Verificar las relaciones en el grupo familiar\r",
+							"            var patients = result.familyGroup.patients;\r",
+							"            patients.forEach(function (patient) {\r",
+							"                // Verificar que el 'documentNumber' del paciente exista y sea correcto\r",
+							"                pm.expect(patient.user.patient.documentNumber).to.exist;\r",
+							"                // Agregar más validaciones para las relaciones entre usuario y paciente\r",
+							"            });\r",
+							"        }\r",
+							"    });\r",
+							"});\r",
+							"// Prueba 6: Verifica que los datos sean consistentes y no tengan inconsistencias\r",
+							"\r",
+							"pm.test(\"Comprobar la consistencia de los datos\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var results = jsonData.results;\r",
+							"    // Ejemplo: Verificar que todos los usuarios activos tengan un correo electrónico válido\r",
+							"    var usuariosActivosSinEmail = results.filter(function (result) {\r",
+							"        return result.isActive && !result.email;\r",
+							"    });\r",
+							"    // Verificar que no haya usuarios activos sin correo electrónico\r",
+							"    pm.expect(usuariosActivosSinEmail).to.be.empty;\r",
+							"\r",
+							"    // Agregar más validaciones para comprobar la consistencia de los datos\r",
+							"});\r",
+							"// Prueba 7: Verifica que los datos de paginación sean correctos\r",
+							"\r",
+							"pm.test(\"Verificar datos de paginación\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var info = jsonData.info;\r",
+							"    // Verificar que 'total' sea un número\r",
+							"    pm.expect(info.total).to.be.a('number');\r",
+							"    // Verificar que 'lastPage' sea un número\r",
+							"    pm.expect(info.lastPage).to.be.a('number');\r",
+							"    // Verificar que 'currentPage' sea un número\r",
+							"    pm.expect(info.currentPage).to.be.a('number');\r",
+							"    // Verificar que 'perPage' sea un número\r",
+							"    pm.expect(info.perPage).to.be.a('number');\r",
+							"    // Agregar más validaciones para los datos de paginación según sea necesario\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3N2ZmNDQyMGIyOTNjMThiZDEyM2RhMCIsImVtYWlsIjoiZXJuZXN0by5jYXphYmFuK2ExcHBAb2RhY2xpY2suY29tIiwiaWF0IjoxNzM4NDY0NDExLCJleHAiOjE3Mzg0Nzg4MTF9._asJviz78GBc9FT0sHLZ2CKXtz0cb4ixDc0-7PMS4wU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/patients?search=name:28206198",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"patients"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "id:674da2d4aa9ef46b1a2044de",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "name:28206198"
+						},
+						{
+							"key": "search",
+							"value": "lastName:Cazaban",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "documentNumber:28206198",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List patients",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/patients?search=id:67290aed3d92f050c6492a1b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"patients"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "id:67290aed3d92f050c6492a1b"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1169"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"491-9da+sBuIkQjbWYw6ZwiKLWfdMmE\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 20 Nov 2024 18:08:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"results\": [\n        {\n            \"gacituaPatientId\": 785942,\n            \"id\": \"67290aed3d92f050c6492a1b\",\n            \"email\": \"liclilianatamontero@gmail.com\",\n            \"name\": \"LILIANA ROSA\",\n            \"lastName\": \"MONTERO\",\n            \"phoneNumber\": \"3515599066\",\n            \"isActive\": true,\n            \"documentNumber\": \"17028924\",\n            \"birthdate\": \"1964-09-20T04:00:00.000Z\",\n            \"address\": \"San martin 1015\",\n            \"zipCode\": \"5000\",\n            \"gender\": \"FEMALE\",\n            \"maritalStatus\": \"MARRIED\",\n            \"familyRelationship\": \"OWNER\",\n            \"dischargeDate\": \"2020-03-01T00:00:00.000Z\",\n            \"coverageWaitingPeriod\": null,\n            \"memberNumber\": \"217028924000\",\n            \"healthInsurance\": {\n                \"id\": \"67111d251d9c6ca70621a6df\",\n                \"name\": \"Apross\",\n                \"healthInsurancePlans\": []\n            },\n            \"familyGroup\": {\n                \"id\": \"673ce38945a057fb018f49fd\",\n                \"patients\": [\n                    {\n                        \"user\": {\n                            \"id\": \"67290aed3d92f050c6492a1b\",\n                            \"name\": \"LILIANA ROSA\",\n                            \"lastName\": \"MONTERO\"\n                        }\n                    },\n                    {\n                        \"user\": {\n                            \"id\": \"6734f88c6b5cc31d13b02467\",\n                            \"name\": \"MARIA CRISTINA\",\n                            \"lastName\": \"RODRIGUEZ\"\n                        }\n                    },\n                    {\n                        \"user\": {\n                            \"id\": \"673dd141bf5d8c4a540cb4f5\",\n                            \"name\": \"LAURA\",\n                            \"lastName\": \"RAMIREZ\"\n                        }\n                    }\n                ]\n            },\n            \"groupPermissions\": {\n                \"id\": \"67111e90e518fc615bd6767a\",\n                \"name\": \"Patient\"\n            },\n            \"appointments\": [],\n            \"createdAt\": \"2024-11-04T17:57:01.951Z\",\n            \"updatedAt\": \"2024-11-04T17:57:51.540Z\"\n        }\n    ],\n    \"info\": {\n        \"total\": 1,\n        \"lastPage\": 1,\n        \"currentPage\": 1,\n        \"perPage\": 1,\n        \"prevPage\": null,\n        \"nextPage\": null\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Password recover app",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Client-Type",
+						"value": "react-native",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"guillermina.cipriani+auditor1@odaclick.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/auth/recover",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"auth",
+						"recover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Password recover BO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verifica que el código de estado HTTP sea 200 y que la respuesta sea exitosa\r",
+							"\r",
+							"// Verificar que el código de estado es 200\r",
+							"pm.test(\"El código de estado es 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"// Verificar que el campo 'success' es true\r",
+							"pm.test(\"La respuesta es exitosa\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"// Verifica que el campo 'results' existe y contiene el mensaje correcto\r",
+							"\r",
+							"pm.test(\"El campo 'results' contiene 'Email sent'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results).to.exist;\r",
+							"    pm.expect(jsonData.results).to.eql(\"Email sent\");\r",
+							"});\r",
+							"// Valida que los tipos de datos de los campos sean correctos\r",
+							"\r",
+							"pm.test(\"Validar tipos de datos\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.be.a('boolean');\r",
+							"    pm.expect(jsonData.results).to.be.a('string');\r",
+							"});\r",
+							"// Verifica que no haya un campo 'error' en la respuesta\r",
+							"\r",
+							"pm.test(\"No hay errores en la respuesta\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.not.have.property('error');\r",
+							"});\r",
+							"// Verifica que la respuesta solo contenga los campos 'success' y 'results'\r",
+							"\r",
+							"pm.test(\"La estructura de la respuesta es correcta\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var keys = Object.keys(jsonData);\r",
+							"    pm.expect(keys).to.have.members(['success', 'results']);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Client-Type",
+						"value": "react-native",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"ernesto.cazaban+admin@odaclick.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/auth/recover",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"auth",
+						"recover"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Password recover",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verifica que el código de estado HTTP es 400 (o el código que corresponda)\r",
+							"\r",
+							"// Verificar que el código de estado es 404 Not Found\r",
+							"pm.test(\"El código de estado es 400 Bad Request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"// Verifica que el campo 'success' es false\r",
+							"\r",
+							"pm.test(\"La respuesta indica un fallo\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.be.false;\r",
+							"});\r",
+							"// Verifica que el campo 'error' contiene 'EMAIL_NOT_FOUND'\r",
+							"\r",
+							"pm.test(\"El mensaje de error es 'EMAIL_NOT_FOUND'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"EMAIL_NOT_FOUND\");\r",
+							"});\r",
+							"// Verifica que la respuesta solo contiene los campos 'success' y 'error'\r",
+							"\r",
+							"pm.test(\"La estructura de la respuesta es correcta\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var keys = Object.keys(jsonData);\r",
+							"    pm.expect(keys).to.have.members(['success', 'error']);\r",
+							"});\r",
+							"// Verifica que 'success' es booleano y 'error' es una cadena de texto\r",
+							"\r",
+							"pm.test(\"Validar tipos de datos\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.be.a('boolean');\r",
+							"    pm.expect(jsonData.error).to.be.a('string');\r",
+							"});\r",
+							"// Asegura que el campo 'results' no está presente en la respuesta de error\r",
+							"\r",
+							"pm.test(\"El campo 'results' no está presente\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.not.have.property('results');\r",
+							"});\r",
+							"\r",
+							"// Verifica que el tiempo de respuesta es razonable (por ejemplo, menor a 500 ms)\r",
+							"\r",
+							"pm.test(\"El tiempo de respuesta es menor a 500 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Client-Type",
+						"value": "react-native",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"cazabanernesto@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://ec2-3-136-251-72.us-east-2.compute.amazonaws.com/api/auth/recover",
+					"protocol": "http",
+					"host": [
+						"ec2-3-136-251-72",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"auth",
+						"recover"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
